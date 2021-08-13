@@ -11,14 +11,14 @@ from yolox.data.data_augment import preproc as preprocess
 
 # from yolox.data.datasets import COCO_CLASSES
 COCO_CLASSES = '0'
-from yolox.utils import multiclass_nms, demo_postprocess
+from yolox.utils import multiclass_nms, demo_postprocess, vis
 
 
 def open_sess(model='yolox.onnx'):
     return onnxruntime.InferenceSession(model)
 
 
-def run(sess=None, img=None, input_shape="416,416", score=0.3):
+def run(sess=None, img=None, input_shape="416,416", score=0.3, visual=False):
     input_shape = tuple(map(int, input_shape.split(',')))
     origin_img = img
     mean = (0.485, 0.456, 0.406)
@@ -44,12 +44,18 @@ def run(sess=None, img=None, input_shape="416,416", score=0.3):
     if dets is not None:
         final_boxes, final_scores, final_cls_inds = dets[:, :4], dets[:, 4], dets[:, 5]
 
+    if visual:
+        origin_img = vis(origin_img, final_boxes, final_scores, final_cls_inds,
+                         conf=score, class_names=COCO_CLASSES)
+        cv2.imwrite('output.png', origin_img)
+
     return final_boxes, final_scores, final_cls_inds
 
-image = cv2.imread('./valid/00316_jpg.rf.ea1c6f25b0ad614226c16be8f0efe742.jpg')
-session = open_sess(model='yolox.onnx')
-final_boxes, final_scores, final_cls_inds = run(sess=session, img=image)
+if __name__ == '__main__':
+    image = cv2.imread('./199_rgb.jpg')
+    session = open_sess(model='yolox.onnx')
+    final_boxes, final_scores, final_cls_inds = run(sess=session, img=image, visual=True)
 
-print(final_boxes)
-print(final_scores)
-print(final_cls_inds)
+    print(final_boxes)
+    print(final_scores)
+    print(final_cls_inds)
