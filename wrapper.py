@@ -43,6 +43,8 @@ def run(sess=None, img=None, input_shape="416,416", score=0.3, visual=False):
 
     if dets is not None:
         final_boxes, final_scores, final_cls_inds = dets[:, :4], dets[:, 4], dets[:, 5]
+    else:
+        return None, None, None
 
     if visual:
         origin_img = vis(origin_img, final_boxes, final_scores, final_cls_inds,
