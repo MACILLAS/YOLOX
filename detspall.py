@@ -5,14 +5,14 @@ import wrapper as detector
 from sort import *
 
 
-class det_spall():
+class detspall():
 
     def __init__(self, model='yolox.onnx'):
         self.session = detector.open_sess(model=model)
         self.mot_tracker = Sort()
         self.bb_df = pd.DataFrame(columns=['file', 'x1', 'y1', 'x2', 'y2', 'conf', 'track'])
 
-    def detect (self, img):
+    def detect(self, img):
         final_boxes, final_scores, final_cls_inds = detector.run(sess=self.session, img=img, visual=False)
         if final_boxes is not None:
             final_boxes = final_boxes[final_scores.argmax(), :]
@@ -25,15 +25,16 @@ class det_spall():
             return None
         return [x1, y1, x2, y2, conf]
 
-    def detAndTrack (self, img):
+    def detAndTrack(self, img):
         # Get detections [x1, y1, x2, y2, conf]
         detections = self.detect(img)
         if detections is not None:
-            track_bbs_ids = mot_tracker.update(np.array([detections]))
+            track_bbs_ids = self.mot_tracker.update(np.array([detections]))
         else:
-            track_bbs_ids = mot_tracker.update(np.empty((0, 5)))
+            track_bbs_ids = self.mot_tracker.update(np.empty((0, 5)))
         # track_bbs_ids [x1, y1, x2, y2, track_idx]
         return track_bbs_ids
+
 
 if __name__ == "__main__":
     DATADIR = '../YOLOX/datasets/ig_sim_closeup/'

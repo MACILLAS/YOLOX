@@ -3,7 +3,7 @@
 # Copyright (c) Megvii, Inc. and its affiliates.
 
 from loguru import logger
-from tqdm import tqdm
+#from tqdm import tqdm
 
 import torch
 

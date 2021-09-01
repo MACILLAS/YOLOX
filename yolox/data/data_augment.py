@@ -12,9 +12,9 @@ http://arxiv.org/abs/1512.02325
 import cv2
 import numpy as np
 
-import torch
+#import torch
 
-from yolox.utils import xyxy2cxcywh
+#from yolox.utils import xyxy2cxcywh
 
 import math
 import random

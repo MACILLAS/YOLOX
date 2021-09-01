@@ -4,7 +4,7 @@
 
 import torch
 import torch.nn as nn
-from thop import profile
+#from thop import profile
 
 from copy import deepcopy
 

@@ -4,7 +4,7 @@
 
 import cv2
 import numpy as np
-from pycocotools.coco import COCO
+#from pycocotools.coco import COCO
 
 import os
 
