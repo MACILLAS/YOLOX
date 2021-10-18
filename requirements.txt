@@ -10,7 +10,7 @@ Pillow
 thop
 ninja
 tabulate
-tensorboard
+#tensorboard
 
 # verified versions
 onnx==1.8.1
