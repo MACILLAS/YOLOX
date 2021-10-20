@@ -28,12 +28,14 @@ class detspall():
     def detAndTrack(self, img):
         # Get detections [x1, y1, x2, y2, conf]
         detections = self.detect(img)
+        conf=None
         if detections is not None:
+            conf = detections[4]
             track_bbs_ids = self.mot_tracker.update(np.array([detections]))
         else:
             track_bbs_ids = self.mot_tracker.update(np.empty((0, 5)))
         # track_bbs_ids [x1, y1, x2, y2, track_idx]
-        return track_bbs_ids
+        return track_bbs_ids,conf
 
 
 if __name__ == "__main__":
