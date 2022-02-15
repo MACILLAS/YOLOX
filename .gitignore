@@ -207,7 +207,6 @@ docs/api
 *.pkl
 *.npy
 *.pth
-*.onnx
 events.out.tfevents*
 
 # vscode
