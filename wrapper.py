@@ -10,15 +10,20 @@ import onnxruntime
 from yolox.data.data_augment import preproc as preprocess
 
 # from yolox.data.datasets import COCO_CLASSES
+#COCO_CLASSES = (
+#  "bearing",
+#  "cover plate termination",
+#  "gusset plate connection",
+#  "out of plane stiffener",
+#  "crack",
+#  "spall",
+#  "stain"
+#)
 COCO_CLASSES = (
-  "bearing",
-  "cover plate termination",
-  "gusset plate connection",
-  "out of plane stiffener",
-  "crack",
-  "spall",
-  "stain"
+  "0"
 )
+
+
 
 from yolox.utils import multiclass_nms, demo_postprocess, vis
 
@@ -27,7 +32,7 @@ def open_sess(model='yolox.onnx'):
     return onnxruntime.InferenceSession(model)
 
 
-def run(sess=None, img=None, input_shape="640,640", score=0.3, visual=False):
+def run(sess=None, img=None, input_shape="640,640", score=0.0, visual=False):
     input_shape = tuple(map(int, input_shape.split(',')))
     origin_img = img
     mean = (0.485, 0.456, 0.406)
@@ -63,8 +68,8 @@ def run(sess=None, img=None, input_shape="640,640", score=0.3, visual=False):
     return final_boxes, final_scores, final_cls_inds
 
 if __name__ == '__main__':
-    image = cv2.imread('./199_rgb.jpg')
-    session = open_sess(model='yolox.onnx')
+    image = cv2.imread('./test_im2.jpg')
+    session = open_sess(model='yolox_v2.onnx')
     final_boxes, final_scores, final_cls_inds = run(sess=session, img=image, visual=True)
 
     print(final_boxes)
